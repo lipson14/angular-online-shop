@@ -1,0 +1,9 @@
+@if (isLoading()) {
+  <div class="spinner">
+    <span class="loader"></span>
+  </div>
+}
+
+<app-navbar></app-navbar>
+<app-auth-dialog></app-auth-dialog>
+<router-outlet></router-outlet>

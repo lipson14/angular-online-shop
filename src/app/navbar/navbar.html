@@ -1,0 +1,42 @@
+<header>
+    <h4 routerLink="/">SIINAX</h4>
+
+    <button class="hamburger" (click)="toggleMenu()" aria-label="მენიუ">
+        <span></span><span></span><span></span>
+    </button>
+
+    <ul [class.open]="menuOpen">
+        <li (click)="navigate('/')">HOME</li>
+        <li (click)="navigate('/shop')">SHOP</li>
+        <li (click)="navigate('/help')">HELP</li>
+        @if (isLoggedIn()) {
+            <li class="nav-mobile-only" (click)="navigate('/profile')">
+                <i class="fa-solid fa-circle-user"></i> {{ userName }}
+            </li>
+        } @else {
+            <li class="nav-mobile-only" (click)="openLogin()">
+                <i class="fa-solid fa-circle-user"></i> LOG IN
+            </li>
+        }
+        <li class="nav-mobile-only" (click)="navigate('/profile')">
+            <i class="fa-solid fa-cart-shopping"></i> CART
+        </li>
+        <li class="nav-mobile-only mode-toggle-mobile" (click)="switchMode()">
+            <i [class]="isLightMode ? 'fa-solid fa-moon' : 'fa-solid fa-sun'"></i>
+            {{ isLightMode ? 'DARK MODE' : 'LIGHT MODE' }}
+        </li>
+    </ul>
+
+    <div class="head">
+        <button class="mode-toggle" (click)="switchMode()" [attr.aria-label]="isLightMode ? 'Switch to dark mode' : 'Switch to light mode'">
+            <i [class]="isLightMode ? 'fa-solid fa-moon' : 'fa-solid fa-sun'"></i>
+        </button>
+        <i class="fa-solid fa-circle-user" (click)="goToProfile()"></i>
+        @if (isLoggedIn()) {
+            <h5 (click)="logout()">{{ userName }} <i class="fa-solid fa-right-from-bracket"></i></h5>
+        } @else {
+            <h5 (click)="openLogin()">Log In</h5>
+        }
+        <h5 (click)="navigate('/profile')"><i class="fa-solid fa-cart-shopping"></i></h5>
+    </div>
+</header>

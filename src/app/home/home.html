@@ -1,0 +1,36 @@
+<div class="mainphoto">
+    <div class="text">
+        <h2>Quality applications and gadgets — Smart solutions for everyday convenience</h2>
+        <button (click)="router.navigate(['/shop'])">&#123; SHOP NOW &#125;</button>
+    </div>
+</div>
+
+<div class="trending"><h4>TRENDING NOW</h4></div>
+
+<section>
+    @for (item of products(); track item._id) {
+        <div class="card">
+            <img [src]="service.getThumbnail(item.thumbnail)" [alt]="item.title">
+            <h4 (click)="goToDetails(item._id)">{{ item.title }}</h4>
+            <h6>{{ item.brand }}</h6>
+            <div class="stars">
+                @for (i of [1,2,3,4,5]; track i) {
+                    <i [class]="i <= item.rating ? 'fa-solid fa-star' : (i - 0.5 <= item.rating ? 'fa-solid fa-star-half-stroke' : 'fa-regular fa-star')"></i>
+                }
+                <span class="rating-num">{{ item.rating.toFixed(1) }}</span>
+            </div>
+            <p>price: {{ item.price.current }} $</p>
+            <p>In Stock: {{ item.stock }}</p>
+            <button (click)="addToCart(item)" [class.out-of-stock]="item.stock <= 0">ADD TO CART</button>
+        </div>
+    }
+</section>
+
+<div class="mainphoto2">
+    <div class="text">
+        <h2>10% off all smart watches with every purchase — Explore limited time offers</h2>
+        <button (click)="router.navigate(['/shop'])">&#123; SHOP NOW &#125;</button>
+    </div>
+</div>
+
+<app-footer />

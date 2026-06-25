@@ -1,0 +1,59 @@
+@if (product()) {
+<div class="detail">
+    <div class="left">
+        <img [src]="service.getThumbnail(product().thumbnail)" [alt]="product().title">
+    </div>
+    <div class="right">
+        <h3>{{ product().title }}</h3>
+        <h4>{{ product().brand }}</h4>
+        <p>{{ product().description }}</p>
+        <p>price: {{ product().price.current }} $</p>
+        <p>In Stock: {{ product().stock }}</p>
+
+        <div class="stars">
+            @for (i of [1,2,3,4,5]; track i) {
+                <i [class]="i <= averageRating ? 'fa-solid fa-star' : 'fa-regular fa-star'"></i>
+            }
+            <span class="rating-number">{{ averageRating.toFixed(1) }}</span>
+           
+        </div>
+
+        <div class="qty-wrap">
+            <button class="qty-btn" (click)="changeQty(-1)">−</button>
+            <span>{{ currentQty }}</span>
+            <button class="qty-btn" (click)="changeQty(1)">+</button>
+        </div>
+
+        <div class="buttons">
+            <button (click)="addToCart()" [class.out-of-stock]="product().stock <= 0">ADD TO CART</button>
+            <button id="review" (click)="openReview()" [class.already-rated]="alreadyRated">
+                {{ alreadyRated ? 'Done ✓' : 'Write a Review' }}
+            </button>
+        </div>
+    </div>
+</div>
+} @else {
+<div class="loading"><i class="fa-solid fa-spinner fa-spin"></i> იტვირთება...</div>
+}
+
+@if (showReview) {
+<div class="popup-overlay" (click)="showReview = false">
+    <div class="pop" (click)="$event.stopPropagation()">
+        <button class="six" (click)="showReview = false">X</button>
+        <h3>RATE THE ITEM</h3>
+
+        <div class="stars1">
+            @for (s of [5,4,3,2,1]; track s) {
+                <label>
+                    <input type="radio" name="rate" [value]="s" (click)="selectedRating = s">
+                    <i [class]="s <= selectedRating ? 'fa-solid fa-star' : 'fa-regular fa-star'"></i>
+                </label>
+            }
+        </div>
+
+        <button class="done" (click)="submitRating()">DONE</button>
+    </div>
+</div>
+}
+
+<app-footer />

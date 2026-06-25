@@ -1,0 +1,174 @@
+<div class="page-wrap">
+
+    <div class="banner">
+        <div class="banner-bg"></div>
+        <div class="banner-overlay"></div>
+    </div>
+
+    @if (myInfo()) {
+    <div class="profile-card">
+        <div class="avatar-ring">
+            @if (myInfo()?.avatar && !avatarError) {
+                <img [src]="myInfo()?.avatar" alt="avatar" (error)="avatarError = true">
+            } @else {
+                <div class="avatar-fallback"><i class="fa-solid fa-user"></i></div>
+            }
+        </div>
+
+        <div class="profile-body">
+            <div class="name-row">
+                <h1>{{ myInfo()?.firstName }} {{ myInfo()?.lastName }}</h1>
+                <span class="gender-pill">{{ myInfo()?.gender }}</span>
+            </div>
+            <div class="meta-row">
+                <span class="meta-item"><i class="fa-solid fa-location-dot"></i>{{ myInfo()?.address || '—' }}</span>
+                <span class="meta-item"><i class="fa-solid fa-phone"></i>{{ myInfo()?.phone || '—' }}</span>
+                <span class="meta-item"><i class="fa-solid fa-envelope"></i>{{ myInfo()?.email || '—' }}</span>
+                <span class="meta-item"><i class="fa-solid fa-cake-candles"></i>Age {{ myInfo()?.age || '—' }}</span>
+                <span class="meta-item"><i class="fa-solid fa-hashtag"></i>{{ myInfo()?.zipcode || '—' }}</span>
+            </div>
+        </div>
+
+        <div class="profile-actions">
+            <button id="set" (click)="gamochenili = true" title="Edit Profile">
+                <i class="fa-solid fa-user-gear"></i>
+            </button>
+            <button id="set" (click)="showPasswordPopup = true" title="Change Password">
+                <i class="fa-solid fa-key"></i>
+            </button>
+        </div>
+    </div>
+    }
+
+    @if (gamochenili) {
+    <div class="popup-overlay" (click)="gamochenili = false">
+        <div class="pop" (click)="$event.stopPropagation()">
+            <form [formGroup]="formInfo" (ngSubmit)="updateUser()">
+                <button (click)="gamochenili = false" type="button" class="six">X</button>
+                <h2 class="popup-title">EDIT PROFILE</h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>firstName</label>
+                        <input type="text" formControlName="firstName">
+                    </div>
+                    <div class="form-group">
+                        <label>lastName</label>
+                        <input type="text" formControlName="lastName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>age</label>
+                    <input type="text" formControlName="age">
+                </div>
+                <div class="form-group">
+                    <label>address</label>
+                    <input type="text" formControlName="address">
+                </div>
+                <div class="form-group">
+                    <label>phone</label>
+                    <input type="text" formControlName="phone">
+                </div>
+                <div class="form-group">
+                    <label>gender</label>
+                    <select formControlName="gender">
+                        <option value="">Choose Gender</option>
+                        <option value="MALE">Male</option>
+                        <option value="FEMALE">Female</option>
+                        <option value="OTHER">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>zipcode</label>
+                    <input type="text" formControlName="zipcode">
+                </div>
+                <div class="form-group">
+                    <label>avatar</label>
+                    <input type="text" formControlName="avatar">
+                </div>
+
+                <button class="save-btn" [disabled]="formInfo.invalid">SAVE CHANGES</button>
+            </form>
+        </div>
+    </div>
+    }
+
+    @if (showPasswordPopup) {
+    <div class="popup-overlay" (click)="showPasswordPopup = false">
+        <div class="pop" (click)="$event.stopPropagation()">
+            <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+                <button (click)="showPasswordPopup = false" type="button" class="six">X</button>
+                <h2 class="popup-title">CHANGE PASSWORD</h2>
+
+                <div class="form-group">
+                    <label>current password</label>
+                    <input type="password" formControlName="oldPassword">
+                </div>
+                <div class="form-group">
+                    <label>new password</label>
+                    <input type="password" formControlName="newPassword" >
+                </div>
+                <div class="form-group">
+                    <label>confirm new password</label>
+                    <input type="password" formControlName="confirmPassword">
+                </div>
+
+                @if (passwordMsg) {
+                    <p class="password-msg" [class.success]="!passwordErr" [class.error]="passwordErr">{{ passwordMsg }}</p>
+                }
+
+                <button class="save-btn" [disabled]="passwordForm.invalid">UPDATE PASSWORD</button>
+            </form>
+        </div>
+    </div>
+    }
+
+    <div class="page-divider"></div>
+
+    <div class="cart-section">
+        <h2 class="cart-heading">YOUR CART</h2>
+
+        @if (cartLoading()) {
+            <div class="cart-loading"><i class="fa-solid fa-spinner fa-spin"></i> Loading cart...</div>
+        } @else if (cartItems().length === 0) {
+            <div class="cart-empty">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <p>CART IS EMPTY</p>
+                <button class="go-shop-btn" routerLink="/shop">SHOP NOW</button>
+            </div>
+        } @else {
+            <div class="cart-list">
+                @for (item of cartItems(); track item._id) {
+                    <div class="cart-card">
+                        <img class="cart-card-img" [src]="service.getThumbnail(item.thumbnail)" [alt]="item.title">
+                        <div class="cart-card-info">
+                            <div class="cart-card-title">{{ item.title }}</div>
+                            <div class="cart-card-brand">{{ item.brand }}</div>
+                            <div class="cart-card-stock">Stock: {{ item.stock }}</div>
+                        </div>
+                        <div class="cart-card-right">
+                            <div class="cart-qty-wrap">
+                                <button class="cart-qty-btn" (click)="changeQty(item, -1)">−</button>
+                                <span class="cart-qty-value">{{ item.quantity }}</span>
+                                <button class="cart-qty-btn" (click)="changeQty(item, 1)">+</button>
+                            </div>
+                            <div class="cart-line-price">{{ (item.price.current * item.quantity).toFixed(2) }} $</div>
+                            <button class="cart-remove-btn" (click)="removeItem(item._id)">
+                                <i class="fa-solid fa-trash"></i> REMOVE
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="cart-footer">
+                <span class="total-label">ORDER TOTAL</span>
+                <span class="total-price">{{ total().toFixed(2) }} $</span>
+                <button class="checkout-btn"><i class="fa-solid fa-bag-shopping"></i> GO TO CHECKOUT</button>
+            </div>
+        }
+    </div>
+
+</div>
+
+<app-footer />

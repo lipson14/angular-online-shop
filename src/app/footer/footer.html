@@ -1,0 +1,15 @@
+<div class="end">
+    @for (section of sections; track section.title) {
+        <div class="first">
+            <ul>
+                <li class="fr">{{ section.title }}</li>
+                @for (item of section.items; track $index) {
+                    <li class="wtf">{{ item }}</li>
+                }
+                @if (section.btn) {
+                    <li><button (click)="router.navigate([section.btn.route])">{{ section.btn.label }}</button></li>
+                }
+            </ul>
+        </div>
+    }
+</div>

@@ -1,0 +1,121 @@
+<div class="yvela">
+
+    <button class="filter-toggle" (click)="openSidebar()">
+        <i class="fa-solid fa-sliders"></i> FILTERS
+    </button>
+
+    <div class="sidebar-overlay" [class.active]="sidebarOpen" (click)="closeSidebar()"></div>
+
+    <div class="left1" [class.open]="sidebarOpen">
+        <button class="filter-close" (click)="closeSidebar()">✕ Close</button>
+
+        <h5>Browse by</h5>
+        <hr>
+
+        <h5>Categories:</h5>
+        <ul>
+            <li [class.active]="activeCategory === ''" (click)="showCards(1); closeSidebar()">
+                <i class="fa-brands fa-deezer"></i> All
+            </li>
+            @for (cat of categoryList(); track cat.id) {
+                <li [class.active]="activeCategory === cat.id" (click)="changeCategory(cat); closeSidebar()">
+                    <i class="fa-brands fa-deezer"></i> {{ cat.name }}
+                </li>
+            }
+        </ul>
+
+        <h5>Brands:</h5>
+        <ul>
+            <li [class.active]="activeBrand === ''" (click)="showCards(1); closeSidebar()">
+                <i class="fa-solid fa-heart"></i> All
+            </li>
+            @for (brand of brandList(); track brand) {
+                <li [class.active]="activeBrand === brand" (click)="changeBrand(brand); closeSidebar()">
+                    <i class="fa-solid fa-heart"></i> {{ brand }}
+                </li>
+            }
+        </ul>
+
+        <h5>Filter by</h5>
+        <hr>
+
+        <div class="price-range">
+            <h5>Price:</h5>
+            <div class="price-inputs">
+                <input type="number" [(ngModel)]="minPrice" placeholder="Min $" min="0">
+                <span>—</span>
+                <input type="number" [(ngModel)]="maxPrice" placeholder="Max $" min="0">
+            </div>
+            <button (click)="applyPrice(); closeSidebar()">Apply</button>
+        </div>
+
+        <h5>Rating:</h5>
+        <div class="rating-filter">
+            <div class="rating-option" [class.active]="activeRating === 0" (click)="filterByRating(0); closeSidebar()">
+                <h5>All Ratings</h5>
+            </div>
+            @for (r of [5,4,3,2,1]; track r) {
+                <div class="rating-option" [class.active]="activeRating === r" (click)="filterByRating(r); closeSidebar()">
+                    @for (i of [1,2,3,4,5]; track i) {
+                        <i [class]="i <= r ? 'fa-solid fa-star' : 'fa-regular fa-star'"></i>
+                    }
+                    @if (r < 5) { <span>&amp; up</span> }
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="whole">
+        <div class="search">
+            <input type="text" placeholder="Search here..." [(ngModel)]="keyWords" (keydown.enter)="search()">
+            <button (click)="search()"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+
+        <select (change)="changeSize($event)">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15" selected>15</option>
+            <option value="25">25</option>
+            <option value="40">All</option>
+        </select>
+
+        <div class="btns">
+            <button class="nav-btn" [disabled]="currentPage <= 1 || pages().length === 0" (click)="goPrev()">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+
+            @for (p of pages(); track p) {
+                <button [class.active-btn]="p === currentPage" (click)="showCards(p)">{{ p }}</button>
+            }
+
+            <button class="nav-btn" [disabled]="currentPage >= pages().length || pages().length === 0" (click)="goNext()">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <section>
+            @for (item of products(); track item._id) {
+                <div class="card">
+                    <img [src]="service.getThumbnail(item.thumbnail)" [alt]="item.title">
+                    <h4 (click)="goToDetails(item._id)">{{ item.title }}</h4>
+                    <h6>{{ item.brand }}</h6>
+                    <h6 class="desc">{{ item.description }}</h6>
+                    <div class="stars">
+                        @for (i of [1,2,3,4,5]; track i) {
+                            <i [class]="i <= item.rating ? 'fa-solid fa-star' : (i - 0.5 <= item.rating ? 'fa-solid fa-star-half-stroke' : 'fa-regular fa-star')"></i>
+                        }
+                        <span class="rating-num">{{ item.rating.toFixed(1) }}</span>
+                    </div>
+                    <p>price: {{ item.price.current }} $</p>
+                    <p>In Stock: {{ item.stock }}</p>
+                    <button (click)="addToCart(item)" [class.out-of-stock]="item.stock <= 0">ADD TO CART</button>
+                </div>
+            }
+            @if (products().length === 0) {
+                <p class="no-results">პროდუქტი ვერ მოიძებნა</p>
+            }
+        </section>
+    </div>
+</div>
+
+<app-footer />

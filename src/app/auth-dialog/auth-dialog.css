@@ -1,0 +1,197 @@
+.dialog-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(6px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 2000; padding: 20px;
+}
+
+.dialog {
+    width: 100%; max-width: 560px;
+    max-height: 94vh; overflow-y: auto;
+    background: #0a0a0a;
+    border: 1px solid #2a2a2a;
+    border-radius: 16px;
+    padding: 36px 36px 30px;
+    position: relative;
+    box-shadow: 0 0 60px rgba(133, 77, 255, 0.15), 0 25px 60px rgba(0,0,0,0.6);
+}
+
+.dialog::-webkit-scrollbar { width: 4px; }
+.dialog::-webkit-scrollbar-track { background: transparent; }
+.dialog::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
+
+.close-btn {
+    position: absolute; top: 9px; right: 9px;
+    width: 27px; height: 27px;
+    background: #1a1a1a; border: 1px solid #2a2a2a;
+    border-radius: 8px; color: #666; cursor: pointer;
+    font-size: 14px; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+  
+}
+.close-btn:hover { background: #ff4444; color: white; border-color: #ff4444; }
+
+.dialog-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+.dialog-header h3 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: white;
+    margin-bottom: 6px;
+}
+.dialog-header p {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #555;
+    text-transform: uppercase;
+}
+
+.tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 28px;
+    background: #111;
+    border: 1px solid #1e1e1e;
+    border-radius: 10px;
+    padding: 4px;
+}
+.tabs button {
+    flex: 1;
+    height: 38px;
+    background: transparent;
+    border: none;
+    border-radius: 7px;
+    color: #555;
+    font-family: "Chakra Petch", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.tabs button.active {
+    background: #854DFF;
+    color: white;
+    box-shadow: 0 2px 12px rgba(133, 77, 255, 0.4);
+}
+.tabs button:not(.active):hover { color: #888; }
+
+.tab-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: transparent;
+    padding: 0;
+}
+
+.field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #555;
+}
+
+.field input, .field select {
+    width: 100%;
+    height: 42px;
+    background: #111;
+    border: 1px solid #1e1e1e;
+    border-radius: 8px;
+    color: white;
+    font-family: "Chakra Petch", sans-serif;
+    font-size: 13px;
+    padding: 0 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    margin: 0;
+}
+
+.field select { cursor: pointer; }
+.field select option { background: #111; }
+
+.field input:focus, .field select:focus {
+    border-color: #854DFF;
+    box-shadow: 0 0 0 3px rgba(133, 77, 255, 0.1);
+}
+
+.field input.ng-valid.ng-dirty { border-color: #2a7a4b; }
+.field input.ng-invalid.ng-dirty { border-color: #c0392b; }
+
+.hint {
+    font-size: 9px;
+    color: #444;
+    letter-spacing: 0.5px;
+}
+
+.submit-btn {
+    width: 100%;
+    height: 46px;
+    background: #854DFF;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-family: "Chakra Petch", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    margin-top: 4px;
+}
+.submit-btn:hover { background: white; color: #854DFF; }
+.submit-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.submit-btn:disabled:hover { background: #854DFF; color: white; }
+
+.formSms {
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    min-height: 16px;
+    margin: 0;
+}
+
+.switch-hint {
+    text-align: center;
+    font-size: 11px;
+    color: #444;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+}
+.switch-hint span {
+    color: #854DFF;
+    cursor: pointer;
+    text-decoration: underline;
+}
+.switch-hint span:hover { color: white; }
+
+@media (max-width: 600px) {
+    .dialog { padding: 24px 18px 22px; border-radius: 12px; }
+    .field-row { grid-template-columns: 1fr; gap: 14px; }
+}
+
+:host-context(body.lightMode) .dialog { background: #fff; border-color: #e0e0e0; box-shadow: 0 0 60px rgba(133,77,255,0.1), 0 25px 60px rgba(0,0,0,0.15); }
+:host-context(body.lightMode) .dialog-header h3 { color: #111; }
+:host-context(body.lightMode) .field label { color: #777; }
+:host-context(body.lightMode) .field input,
+:host-context(body.lightMode) .field select { background: #f7f7f9; border-color: #ddd; color: #111; }
+:host-context(body.lightMode) .tabs { background: #f0f0f3; border-color: #e0e0e0; }
+:host-context(body.lightMode) .close-btn { background: #f0f0f3; border-color: #e0e0e0; color: #888; }
+:host-context(body.lightMode) .field option{ background-color: white;}

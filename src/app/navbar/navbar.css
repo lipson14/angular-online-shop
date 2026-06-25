@@ -1,0 +1,99 @@
+header {
+    position: fixed;
+    top: 8px;
+    left: 0;
+    width: 97%;
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    margin-left: 20px;
+    padding: 10px;
+    letter-spacing: 2px;
+    border-radius: 10px;
+    background-color: #000;
+    border: 2px solid white;
+    z-index: 999;
+}
+
+h4 { cursor: pointer; font-weight: 700; }
+
+ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    font-weight: bold;
+    color: white;
+}
+
+li { transition: 0.5s; cursor: pointer; }
+li:hover { color: #854DFF; }
+
+.head { display: flex; gap: 10px; align-items: center; }
+.head i:hover, .head h5:hover { color: #854DFF; cursor: pointer; }
+
+.mode-toggle {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    transition: all 0.25s;
+}
+.mode-toggle:hover { background: #854DFF; border-color: #854DFF; transform: rotate(15deg); }
+
+.mode-toggle-mobile i { margin-right: 6px; }
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+}
+
+.hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: white;
+    border-radius: 2px;
+    transition: 0.3s;
+}
+
+.nav-mobile-only { display: none; }
+
+@media (max-width: 650px) {
+    header {
+        width: 92%;
+        margin-left: 14px;
+        padding: 8px 14px;
+        flex-wrap: wrap;
+        height: auto;
+        gap: 8px;
+    }
+    .hamburger { display: flex; }
+    .head { display: none; }
+    ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+        padding: 10px 0 4px;
+        font-size: 14px;
+    }
+    ul.open { display: flex; }
+    .nav-mobile-only {
+        display: flex;
+        align-items: center;
+        border-top: 1px solid rgba(255,255,255,0.2);
+        padding-top: 10px;
+        margin-top: 4px;
+    }
+}

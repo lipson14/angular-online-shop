@@ -1,0 +1,40 @@
+<div class="top">
+    <h2>Help Center</h2>
+    <h3>Have a question? We're here to help</h3>
+</div>
+
+<div class="main2">
+    <div class="left2">
+        <img src="https://static.wixstatic.com/media/c837a6_2217a36962b84278b2463144a07117b0~mv2.jpg/v1/fill/w_928,h_946,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Smartwatch-01-Header_edited.jpg" alt="">
+    </div>
+    <div class="right2">
+        <div class="wrap">
+            <form [formGroup]="helpForm" (ngSubmit)="submitHelp()">
+                <div class="row">
+                    <div class="field">
+                        <label>First name</label>
+                        <input type="text" formControlName="firstName">
+                    </div>
+                    <div class="field">
+                        <label>Last name</label>
+                        <input type="text" formControlName="lastName">
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Email</label>
+                    <input type="email" formControlName="email">
+                </div>
+                <div class="field">
+                    <label>Message</label>
+                    <textarea formControlName="message" placeholder="Leave us a message"></textarea>
+                </div>
+                @if (submitted) {
+                    <p class="success-msg">შეტყობინება გაიგზავნა! მადლობა.</p>
+                }
+                <button class="submit" type="submit" [disabled]="helpForm.invalid">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<app-footer />

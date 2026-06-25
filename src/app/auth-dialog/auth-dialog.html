@@ -1,0 +1,107 @@
+@if (isOpen) {
+<div class="dialog-overlay" (click)="close()">
+    <div class="dialog" (click)="$event.stopPropagation()">
+
+        <button class="close-btn" (click)="close()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        
+
+        <div class="tabs">
+            <button [class.active]="activeTab === 'login'" (click)="activeTab = 'login'">
+                <i class="fa-solid fa-right-to-bracket"></i> LOG IN
+            </button>
+            <button [class.active]="activeTab === 'register'" (click)="activeTab = 'register'">
+                <i class="fa-solid fa-user-plus"></i> REGISTER
+            </button>
+        </div>
+
+        @if (activeTab === 'login') {
+        <form [formGroup]="loginForm" (ngSubmit)="login()" class="tab-form">
+            <div class="field">
+                <label><i class="fa-solid fa-envelope"></i> EMAIL</label>
+                <input type="email" formControlName="email">
+            </div>
+            <div class="field">
+                <label><i class="fa-solid fa-lock"></i> PASSWORD</label>
+                <input type="password" formControlName="password">
+            </div>
+            <p #loginSMS class="formSms"></p>
+            <button class="submit-btn" [disabled]="loginForm.invalid">
+                LOG IN <i class="fa-solid fa-arrow-right"></i>
+            </button>
+           
+        </form>
+        }
+
+        @if (activeTab === 'register') {
+        <form [formGroup]="formInfo" (ngSubmit)="register()" class="tab-form">
+            <div class="field-row">
+                <div class="field">
+                    <label>FIRST NAME</label>
+                    <input type="text"  formControlName="firstName">
+                    
+                </div>
+                <div class="field">
+                    <label>LAST NAME</label>
+                    <input type="text"  formControlName="lastName">
+                   
+                </div>
+            </div>
+            <div class="field-row">
+                <div class="field">
+                    <label>EMAIL</label>
+                    <input type="email"  formControlName="email">
+                </div>
+                <div class="field">
+                    <label>PASSWORD</label>
+                    <input type="password"formControlName="password">
+                </div>
+            </div>
+            <div class="field-row">
+                <div class="field">
+                    <label>PHONE</label>
+                    <input type="text"  formControlName="phone">
+                </div>
+                <div class="field">
+                    <label>AGE</label>
+                    <input type="text"  formControlName="age">
+                </div>
+            </div>
+            <div class="field-row">
+                <div class="field">
+                    <label>ADDRESS</label>
+                    <input type="text"  formControlName="address">
+                </div>
+                <div class="field">
+                    <label>ZIPCODE</label>
+                    <input type="text"  formControlName="zipcode">
+                </div>
+            </div>
+            <div class="field-row">
+                <div class="field">
+                    <label>AVATAR URL</label>
+                    <input type="text"  formControlName="avatar">
+                </div>
+                <div class="field">
+                    <label>GENDER</label>
+                    <select formControlName="gender">
+                        <option value="">Select</option>
+                        <option value="MALE">Male</option>
+                        <option value="FEMALE">Female</option>
+                        <option value="OTHER">Other</option>
+                    </select>
+                </div>
+            </div>
+            <p #registerSMS class="formSms"></p>
+            <button class="submit-btn" [disabled]="formInfo.invalid">
+                CREATE ACCOUNT <i class="fa-solid fa-arrow-right"></i>
+            </button>
+           
+        </form>
+        }
+
+    </div>
+</div>
+}
